@@ -1,0 +1,325 @@
+<!doctype html>
+<html>
+    <head>
+    	<meta charset="utf-8">
+        <title>
+            自然語言處理WebSocket
+        </title>
+        <!--CSS樣式設定-->
+		<style>
+        div 
+        {        
+		   border-radius: 10px;	   	
+        } 
+		table
+		{
+			padding:30px;
+			table-layout:fixed;
+		}
+		th
+		{
+			border-collapse:separate;
+			background-color:#9DC8C8;
+			color:#2B90F9;
+			font-weight:bold;
+			font-size:25px;
+            padding:5px;
+			border-radius: 10px;
+		}
+		tr
+		{	
+			
+			font-weight:bold;
+			text-align:center;
+			border-radius: 10px;
+		}
+        td 
+        {
+			text-outline:#FFFBF0; 
+			/*background:url(bg3000.jpg);*/
+			background-color:#9BAEC8;
+            border:1px solid #d6d6a5;
+			/*color:#D2691E;*/
+			color:#274555;
+			width :400px;
+			height: 40px;
+            padding:5px;
+			border-radius: 10px;
+		}
+		 </style> 
+    </head>
+   
+    <body bgcolor="#D9E1E8" style = "font-family:'微軟正黑體', 'Blackoak Std'; ">
+        
+        
+        	<span style="color:#FFFFFF; background-color:#9BAEC8; font-size:30px;border-radius: 10px; margin:50px 0px 10px 10px;"  ><b>自然語言處理</b></span>
+        
+            <div style=" display:inline;">
+                <span style="color:#2B90D9; font-size:30px;border-radius: 10px "  ><b>QA系統</b></span>
+            </div>
+            
+            
+       <div style="margin:15px 0px 15px 0px;  background-color:#494949;">     
+        <center> 
+            <div name = "url" align="center" style=" display:inline;" >
+        
+        	<tr style="text-align: center; padding:5px">
+            	<th>
+                	<font size="5" color="#FFFFFF">伺服器IP:</font>  
+                </th>
+                <th style="text-align: center; padding:5px;">
+                	<input type="text" style="height:18px;" id="input_IP" value="useforcjcu.ddns.net:8765"/>
+                </th>
+               
+                <th style="text-align: center; padding:5px">
+                	<input type="button" style="color:#274555;background-color:#A3C9C7;width:80px;height:30px; border-radius: 10px;  " value="連線" onclick="websocket()"/>
+            	</th>
+        		
+            </tr>
+        </div>
+        <div style="width:200px ;color:#FFFFFF;">
+            連線狀態:
+            <div id="link_state" style=" display:inline; border:0.5px solid #C50000; color:#FFFFFF; " >未連接</div> 
+        </div>
+        </center>    
+        </div>
+        
+        
+        
+            
+        
+        	<!-- 進行伺服器連線的IP送出 -->
+        	
+            
+            
+            
+        </div>
+            <center>
+            <div name = "query"  style="padding:0px 0px 15px 0px;">
+                <br><b><span style="color:#274555;">輸入問題</span></b><br>
+                <textarea name="ask" id="user query" cols = 40 rows = 10 placeholder="請輸入問句"></textarea>	
+                <br>
+                <input type="button" value = "送出" style="background-color:#A3C9C7;color:274555;width:80px;height:30px;border-radius: 10px;" onclick="query()"/>
+                <br>
+            </div>
+        	</center>
+       	
+        	<center>
+        	<table>
+            	<tr>
+                	<th style="width:200px">斷詞結果:</th>
+                    <th id="seg" ></th>        
+                </tr>
+                <tr>
+                	<th style="width:200px">耗時:</th>
+                    <th id="time" width="400px"></th>
+                </tr>
+        	</table>
+            </center>   	
+        
+        <center>     
+        <table>
+        	<tr>
+                <th colspan=3>相關度第一</th>
+                <th>相似度:</th>
+                <th id="cosx1"></th>  	
+             </tr>
+             <tr>
+                <td>ID編號:</td>
+                <td id="ID1"></td>              
+             </tr>
+             <tr>
+                <td>問題:</td>
+                <td id="Question1"></td>
+             </tr>
+             <tr>
+                <td>回答:</td>
+                <td id="Answer1"></td>
+             </tr>
+             <!--
+             <tr>
+                <td>Model:</td>
+                <td id="Model1"></td>
+             </tr>
+             <tr>
+                <td>Inner_Production:</td>
+                <td id="Inner_Production1"></td>
+             </tr>
+             -->       
+        </table>
+        
+        <table>
+        	<tr>
+                <th colspan=3>相關度第二</th>
+                <th>相似度:</th>
+                <th id="cosx2"></th>
+               	
+             </tr>
+             <tr>
+                <td>ID編號:</td>
+                <td id="ID2"></td>              
+             </tr>
+             <tr>
+                <td>問題:</td>
+                <td id="Question2"></td>
+             </tr>
+             <tr>
+                <td>回答:</td>
+                <td id="Answer2"></td>
+             </tr>
+             <!--
+             <tr>
+                <td>Model:</td>
+                <td id="Model2"></td>
+             </tr>
+             <tr>
+                <td>Inner_Production:</td>
+                <td id="Inner_Production2"></td>
+             </tr>
+             -->
+        </table>
+        
+        
+        <table>
+        	<tr>
+                <th colspan=3>相關度第三</th>
+                <th >相似度:</th>
+                <th id="cosx3"></th>
+               	
+             </tr>
+             <tr>
+                <td>ID編號:</td>
+                <td id="ID3"></td>              
+             </tr>
+             <tr>
+                <td>問題:</td>
+                <td id="Question3"></td>
+             </tr>
+             <tr>
+                <td>回答:</td>
+                <td id="Answer3"></td>
+             </tr>
+             <!--
+             <tr>
+                <td>Model:</td>
+                <td id="Model3"></td>
+             </tr>
+             <tr>
+                <td>Inner_Production:</td>
+                <td id="Inner_Production3"></td>
+             </tr>
+          	-->
+        </table>
+        </center>
+
+    </body>
+    
+    <script>
+		var check_connect = false;	
+		var	IP_connect;
+			
+		//按下連線的按鈕
+		function websocket()
+		{
+			//取得IP
+			var input_ip = document.getElementById("input_IP").value;
+			console.log(input_ip);
+			
+			IP_connect = new WebSocket('ws://' + input_ip);
+			
+			//如果有開啟顯示連線
+			IP_connect.onopen = function()
+			{
+            	console.log("websocket 已連線上");
+				check_connect = true;
+				if(check_connect === true)
+				{
+					document.getElementById(("link_state")).innerHTML = "已連接";
+				}
+				
+            };
+			
+					
+			
+			
+		}
+		
+		function query()
+		{
+			var query = document.getElementById("user query").value;
+			console.log("使用者輸入:"+query)
+			if (check_connect == true)
+			{	
+				//傳詢問給伺服器
+				IP_connect.send(query);
+				var i = 0;
+				//伺服器回傳訊息
+				IP_connect.onmessage = function (event) 
+				{	
+					//決定要放到哪個table中	
+					
+					//如果轉換成功，代表原本就是JSON
+					if (typeof JSON.parse(event.data) == "object")
+					{	
+						i+=1;
+						
+						if (i<=3)
+						{
+							//將轉成字串的JSON格式解析回來
+							var ans  = JSON.parse(event.data);
+							//按照該JSON的各個ID去填入對應數值
+							document.getElementById(("ID"+i)).innerHTML = ans.ID;
+							document.getElementById(("Question"+i)).innerHTML = ans.Question;
+							document.getElementById(("Answer"+i)).innerHTML = ans.Answer;
+							/*
+							document.getElementById(("Inner_Production"+i)).innerHTML = ans.Inner_Production;
+							
+							
+							//ans.Model 是字典的形式
+							var model = ans.Model;
+							var sum ="";
+							//遍歷字典中的key,value
+							for(var key in model)
+							{
+								sum += key + ":" + model[key]+"<br>";
+								
+							}
+							document.getElementById("Model"+i).innerHTML = sum;
+							*/
+						}
+						
+						
+						else if( i === 4)
+						{	
+							var spend_cost  = JSON.parse(event.data);
+							document.getElementById("time").innerHTML = spend_cost.cost_time;
+							document.getElementById("seg").innerHTML = spend_cost.seg_sentence;
+						}
+						
+						else
+						{
+							var cosx_value = JSON.parse(event.data);
+							
+							document.getElementById("cosx1").innerHTML = cosx_value.cosx1;
+							document.getElementById("cosx2").innerHTML = cosx_value.cosx2;
+							document.getElementById("cosx3").innerHTML = cosx_value.cosx3;
+						}
+							
+					}
+							
+						
+								
+					
+								
+				};
+				
+				
+				websocket() //因為websocket送出一次後 就馬上斷掉 所以要再次連結
+			}	
+			
+		}
+		
+		
+		
+	</script>
+</html>
