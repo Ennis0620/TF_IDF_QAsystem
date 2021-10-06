@@ -1,8 +1,3 @@
----
-title: 'Q&A問答系統'
-disqus: hackmd
----
-
 Q&A問答系統
 ===
 
@@ -86,4 +81,8 @@ Note left of 前端: 前端接收並顯示回答
     │      
     └─web
             Websocket_client3.html      前端
+            
+---
+## Facing problems
+
 
