@@ -5,7 +5,7 @@ Q&A問答系統
 
 
 ## Introduction
-透過TF-IDF演算法建立model，讓使用者輸入問題，並根據餘弦相似度來計算輸入問題和語料庫中的相似程度，回覆給使用者相似度最高的前3句。
+透過TF-IDF演算法建立model，讓使用者透過網頁輸入問題，並根據餘弦相似度來計算輸入問題和語料庫中的相似程度，回覆給使用者相似度最高的前3句。
 
 ---
 
@@ -14,7 +14,9 @@ Q&A問答系統
 **model train**
 
 計算TF(詞頻):將語料庫中的問題，用jieba進行斷詞，統計在該句中，每個詞出現的頻率。
+
 計算IDF(逆向文件頻率):統計一個詞在所有語料庫的問題中出現次數，算出其頻率，存成json檔案。
+
 計算TD-IDF:根據TF和IDF的結果，相乘可以得出每個問句當中各詞的TF-IDF，並計算該問句的內積，存成json格式的model。
 
 **cos similarity**
@@ -46,12 +48,8 @@ Q&A問答系統
 
 ## Front End & Back End
 
-```sequence
-前端->後端: 請益 推甄研究所?
-Note right of 後端: 後端計算與model之cos similarity
-後端-->前端: 
-Note left of 前端: 前端接收並顯示回答
-```
+![](https://i.imgur.com/HUnZWeN.png)
+
 
 ---
 
@@ -81,6 +79,15 @@ Note left of 前端: 前端接收並顯示回答
             Websocket_client3.html      前端
             
 ---
-## Facing problems
+## Problems
 
+1.要如何解決TF-IDF稀疏矩陣問題
+
+2.如何加速計算相似度速度
+
+## Solve
+
+1.使用字典來儲存，如此一來沒有出現的不會像陣列一樣要佔空間
+
+2.在建立TF-IDF的model時就欲先存入該問題的內積，如此一來就可以少去每次計算自身內積的耗時
 
